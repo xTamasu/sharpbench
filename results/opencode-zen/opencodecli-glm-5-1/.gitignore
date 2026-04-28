@@ -1,0 +1,12 @@
+node_modules/
+dist/
+bin/
+obj/
+*.user
+*.suo
+.vs/
+.idea/
+*.swp
+*.swo
+.env
+.DS_Store
