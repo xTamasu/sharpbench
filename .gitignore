@@ -1,0 +1,32 @@
+# .NET
+bin/
+obj/
+*.user
+*.suo
+.vs/
+*.userprefs
+*.DotSettings.user
+TestResults/
+*.nupkg
+*.snupkg
+
+# Node / Frontend
+node_modules/
+dist/
+.vite/
+.cache/
+
+# Docker
+.env
+.env.local
+.env.*.local
+
+# macOS
+.DS_Store
+.AppleDouble
+.LSOverride
+
+# Editor
+.idea/
+*.swp
+*.swo
