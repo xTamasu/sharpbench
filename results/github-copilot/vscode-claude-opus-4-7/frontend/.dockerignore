@@ -1,0 +1,10 @@
+# frontend/.dockerignore
+# Avoid copying local node_modules / build output / IDE files into the build context.
+node_modules
+dist
+.vite
+.git
+.gitignore
+*.log
+*.md
+coverage

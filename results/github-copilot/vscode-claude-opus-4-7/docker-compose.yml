@@ -1,0 +1,62 @@
+# docker-compose.yml
+# Orchestrates the three services that make up the Task Management System:
+#   - db:       PostgreSQL 16 with persistent named volume
+#   - api:      ASP.NET Core 8 backend (runs EF Core migrations on startup)
+#   - frontend: React app served by Nginx, proxying /api -> api:8080
+# All secrets are passed via environment variables with sane defaults.
+
+version: "3.9"
+
+services:
+  db:
+    image: postgres:16-alpine
+    container_name: tm_db
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER:-taskmanager}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-taskmanager_dev_pw}
+      POSTGRES_DB: ${POSTGRES_DB:-taskmanager}
+    volumes:
+      - tm_db_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER:-taskmanager} -d ${POSTGRES_DB:-taskmanager}"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+    ports:
+      - "5432:5432"
+
+  api:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    container_name: tm_api
+    restart: unless-stopped
+    depends_on:
+      db:
+        condition: service_healthy
+    environment:
+      ASPNETCORE_ENVIRONMENT: Production
+      ASPNETCORE_URLS: http://+:8080
+      ConnectionStrings__Default: "Host=db;Port=5432;Database=${POSTGRES_DB:-taskmanager};Username=${POSTGRES_USER:-taskmanager};Password=${POSTGRES_PASSWORD:-taskmanager_dev_pw}"
+      Jwt__Secret: ${JWT_SECRET:-CHANGE_ME_super_long_dev_only_secret_key_at_least_32_chars_long_123}
+      Jwt__Issuer: ${JWT_ISSUER:-TaskManager}
+      Jwt__Audience: ${JWT_AUDIENCE:-TaskManagerClients}
+      Jwt__ExpiryMinutes: ${JWT_EXPIRY_MINUTES:-120}
+    ports:
+      - "8080:8080"
+
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    container_name: tm_frontend
+    restart: unless-stopped
+    depends_on:
+      - api
+    ports:
+      - "3000:80"
+
+volumes:
+  tm_db_data:
+    driver: local
