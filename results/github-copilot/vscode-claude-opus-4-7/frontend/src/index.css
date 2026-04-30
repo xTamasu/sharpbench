@@ -1,0 +1,7 @@
+/* index.css — Tailwind base layers and global resets. */
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+html, body, #root { height: 100%; }
+body { @apply text-slate-900 antialiased; }

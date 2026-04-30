@@ -1,0 +1,10 @@
+# backend/.dockerignore
+# Keep the Docker build context small and reproducible.
+**/bin/
+**/obj/
+**/.vs/
+**/.idea/
+**/*.user
+.git/
+.gitignore
+*.md
