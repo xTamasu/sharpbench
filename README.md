@@ -28,22 +28,15 @@ llm-benchmark/
 └── results/
     ├── github-copilot/
     │   ├── vscode-gpt-4-1/
-    │   │   └── 2026-04-28/
     │   ├── vscode-claude-sonnet-4-5/
-    │   │   └── 2026-04-28/
     │   └── vscode-o3/
-    │       └── 2026-04-28/
     ├── claude/
     │   ├── web-claude-opus-4-5/
-    │   │   └── 2026-04-28/
     │   └── web-claude-sonnet-4-5/
-    │       └── 2026-04-28/
     ├── opencode-zen/
     │   └── cli-claude-opus-4-5/
-    │       └── 2026-04-28/
     ├── cursor/
     │   └── ide-gpt-4-1/
-    │       └── 2026-04-28/
     └── _template/
         ├── README.md           ← How to fill out a result entry
         ├── review.md           ← Blank scoring sheet
@@ -51,7 +44,7 @@ llm-benchmark/
         └── chat-history.md     ← Full chat log (if available)
 ```
 
-Each result entry lives at: `results/{tool}/{client}-{model}/{date}/`
+Each result entry lives at: `results/{tool}/{client}-{model}/`
 
 ---
 
@@ -81,7 +74,7 @@ Each result entry lives at: `results/{tool}/{client}-{model}/{date}/`
 
 ## 🔍 How to Add a Result
 
-1. Copy `results/_template/` into the correct `results/{tool}/{model}/{date}/` path
+1. Copy `results/_template/` into the correct `results/{tool}/{model}/` path
 2. Run the prompt, collect the output
 3. Run the second prompt for debugging until all success conditions are met (compiles, `docker-compose up`, tests)
 4. Place all generated files inside a `src/` subfolder
